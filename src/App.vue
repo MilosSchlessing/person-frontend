@@ -1,10 +1,15 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+<navbar-app></navbar-app>
   <router-view/>
 </template>
+<script>
+import NavbarApp from './components/NavbarApp'
+
+export default {
+  name: "App",
+  components: { NavbarApp } //Komponentenname geändert
+}
+</script>
 
 <style>
 #app {
