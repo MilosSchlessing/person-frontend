@@ -24,8 +24,10 @@
   </div>
   <div class="chart-container">
     <button @click="createChart">Create Chart</button>
+    <p>Durchschnittliche Wasseraufnahme: {{ averageIntake }}ml</p>
     <p>{{ chartMessage }}</p> <!-- Zeigen Sie die Meldung hier an -->
-    <canvas id="myChart"></canvas>
+    <canvas id="myChart" ref="myChart"></canvas>
+    <button @click="downloadChart" v-if="chart">Download Chart</button>
   </div>
 </template>
 
@@ -85,10 +87,19 @@ export default {
       chartMessage: '',
       addIntakeMessage: '',
       getThingMessage: '',
+      averageIntake: 0,
     }
   },
 
   methods: {
+    calculateAverageIntake() {
+      if (this.dailyWaterIntakes.length > 0) {
+        const totalIntake = this.dailyWaterIntakes.reduce((sum, intake) => sum + intake.ml, 0);
+        this.averageIntake = totalIntake / this.dailyWaterIntakes.length;
+      } else {
+        this.averageIntake = 0;
+      }
+    },
     async getThing() {
   try {
     const response = await axios.get(`http://localhost:8080/watergoal/${this.thingId}`);
@@ -97,6 +108,7 @@ export default {
       this.dailyWaterIntakes = response.data.dailyWaterIntakes;
       this.editMode = false;
       this.getThingMessage = '';
+      this.resetData();
     } else {
       this.getThingMessage = 'Keine Daten für diese ID gefunden.';
       this.currentThing = null; // Setzen Sie currentThing auf null
@@ -117,33 +129,34 @@ export default {
 
     async addDailyWaterIntake() {
   if (this.currentThing) {
-    const existingIntake = this.dailyWaterIntakes.find(intake => intake.date === this.newDate);
+    const existingIntake = this.dailyWaterIntakes && this.dailyWaterIntakes.find(intake => intake.date === this.newDate);
     if (existingIntake) {
       this.addIntakeMessage = 'Es kann nicht mehr als eine Angabe pro Tag hinzugefügt werden.';
       return;
     }
 
-        const response = await axios.post('http://localhost:8080/dailyWaterIntake', {
-          waterGoal: { id: this.currentThing.id },
-          date: this.newDate,
-          ml: this.newDailyWaterIntake
-        })
+    const response = await axios.post('http://localhost:8080/dailyWaterIntake', {
+      waterGoal: { id: this.currentThing.id },
+      date: this.newDate,
+      ml: this.newDailyWaterIntake
+    })
 
-        this.currentThing.dailyWaterIntake = response.data.dailyWaterIntake
-        this.newDailyWaterIntake = ''
-        this.newDate = ''
+    this.currentThing.dailyWaterIntake = response.data.dailyWaterIntake
+    this.newDailyWaterIntake = ''
+    this.newDate = ''
 
-        await this.fetchDailyWaterIntakes();
-      } else {
-        console.error('currentThing is null');
-      }
-    },
+    await this.fetchDailyWaterIntakes();
+  } else {
+    console.error('currentThing is null');
+  }
+},
 
     async fetchDailyWaterIntakes() {
   if (this.currentThing) {
     try {
       const response = await axios.get(`http://localhost:8080/dailyWaterIntake/${this.currentThing.id}`);
       this.dailyWaterIntakes = response.data || [];
+      this.calculateAverageIntake();
     } catch (error) {
       console.error(error);
       this.dailyWaterIntakes = [];
@@ -191,8 +204,33 @@ export default {
       } else {
         console.error('dailyWaterIntakes is empty or undefined');
         this.chartMessage = 'Es konnte kein Diagramm für die angegebene ID erstellt werden, da keine Daten vorhanden sind.';
+        if(this.chart) {
+          this.chart.destroy();
+          this.chart = null;
+        }
       }
     },
+
+    downloadChart() {
+    if (!this.chart) {
+      console.error('No chart available to download');
+      return;
+    }
+
+    const canvas = this.$refs.myChart; // Zugriff auf das Canvas-Element über Vue refs
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = 'chart.png';
+    document.body.appendChild(link); // Required for Firefox
+    link.click();
+  },
+  resetData() {
+    this.averageIntake = 0;
+    if (this.chart) {
+      this.chart.destroy();
+      this.chart = null;
+    }
+  },
   }
 }
 </script>

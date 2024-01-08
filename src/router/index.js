@@ -7,12 +7,12 @@ import Login from '@/views/LoginView.vue' // Importieren Sie die Login-Komponent
 
 const routes = [
   {
-    path: '/',
-    name: 'Login', // Ändern Sie den Namen der Standardroute in 'Login'
-    component: Login // Ändern Sie die Komponente der Standardroute in Login
+    path: '/Login',
+    name: 'Login',
+    component: Login 
   },
   {
-    path: '/home', // Fügen Sie eine neue Route für die Home-Seite hinzu
+    path: '/',
     name: 'Home',
     component: Home
   },

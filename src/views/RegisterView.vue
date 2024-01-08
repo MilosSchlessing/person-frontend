@@ -1,18 +1,18 @@
 <template>
-  <div class="register">
-    <h2>Register</h2>
-    <form @submit.prevent="register">
-      <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" v-model="username">
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password">
-      </div>
-      <button type="submit">Register</button>
+  <div class="things">
+    <h1>Email Reminder</h1>
+
+    <form @submit.prevent="addOrToggleEmail">
+      <label for="email">Email:</label>
+      <input id="email" v-model="newEmail" type="email">
+      <button type="submit">Add or find E-Mail</button>
     </form>
-    <p v-if="message">{{ message }}</p> <!-- Zeigt die Meldung an, wenn sie gesetzt ist -->
+
+    <div v-if="currentEmailReminder">
+      <h2>Current Email: {{ currentEmailReminder.email }}</h2>
+      <p>Reminder Enabled: {{ currentEmailReminder.reminderEnabled ? 'Yes' : 'No' }}</p>
+      <button @click="toggleReminder">Toggle Reminder</button>
+    </div>
   </div>
 </template>
 
@@ -22,57 +22,65 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      name: '', // Ändern Sie 'username' in 'name'
-      password: ''
+      newEmail: '',
+      currentEmailReminder: null,
+      emailToFind: '',
     };
   },
   methods: {
-    async register() {
-      try {
-        const response = await axios.post('http://localhost:8080/api/v1/account', {
-          name: this.name, // Ändern Sie 'username' in 'name'
-          password: this.password
+  async addOrToggleEmail() {
+    try {
+      const response = await axios.get(`http://localhost:8080/emailReminders/${this.newEmail}`);
+      this.currentEmailReminder = response.data;
+      if (this.currentEmailReminder) {
+        console.log(`Reminder for ${this.newEmail} is ${this.currentEmailReminder.reminderEnabled ? 'enabled' : 'disabled'}`);
+      } else {
+        console.log(`No reminder found for ${this.newEmail}. Adding new email.`);
+        await axios.post('http://localhost:8080/emailReminders/create', {
+          email: this.newEmail
         });
-
-        if (response.status === 201) {
-          console.log('Account creation successful');
-          this.$router.push('/about');
-        } else {
-          console.log('Account creation failed');
-        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+    async toggleReminder() {
+      try {
+        await axios.post(`http://localhost:8080/emailReminders/enableReminder/${this.currentEmailReminder.id}`);
+        // Toggle the reminder after the server request is successful
+        this.currentEmailReminder.reminderEnabled = !this.currentEmailReminder.reminderEnabled;
       } catch (error) {
-        console.error('An error occurred while trying to create an account:', error);
+        console.error(error);
       }
     }
-  }
-}
+  } 
+  };
 </script>
 
-
-<!-- Rest des Codes bleibt unverändert -->
-
 <style scoped>
-.register {
-  width: 300px;
-  margin: 0 auto;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.register h2 {
-  text-align: center;
-}
-
-.register form {
+.things {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #89CFF0 0%, #FFFFFF 100%);
+  padding: 20px;
 }
 
-.register form div {
-  margin-bottom: 10px;
+.things h1,
+.things h2,
+.things p {
+  color: #0077be;
+  margin-bottom: 15px;
 }
 
-.register form button {
-  cursor: pointer;
+.things form {
+  margin-bottom: 20px;
+}
+
+.things form input,
+.things form button {
+  margin-top: 5px;
 }
 </style>

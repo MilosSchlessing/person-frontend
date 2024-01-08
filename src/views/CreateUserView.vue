@@ -1,14 +1,13 @@
 <template>
   <div class="createUser">
     <h1>Create User</h1>
+    <img src="/pics/background.jpg" width="100%" height="100%">
     <form @submit.prevent="createUser">
       <label for="name">Name:</label>
       <input id="name" v-model="newUser.name" required>
-
       <label for="ml">ML:</label>
       <input id="ml" v-model="newUser.ml" required>
-
-      <button type="submit">Create User</button>
+      <button class='glowing-btn' type="submit">Create User</button>
     </form>
 
     <p v-if="userId">Your user ID is: {{ userId }}</p>
@@ -42,7 +41,8 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
+@import '../styles.css';
 .createUser {
   display: flex;
   flex-direction: column;

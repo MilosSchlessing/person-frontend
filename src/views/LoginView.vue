@@ -1,74 +1,57 @@
+
 <template>
   <div class="login">
-    <h2>Login</h2>
-    <form @submit.prevent="login">
-      <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" v-model="username">
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password">
-      </div>
-      <button type="submit">Login</button>
-      <button @click.prevent="createAccount">Create Account</button>
-    </form>
+    <p class="we-help-to-get-you">
+      <span class="text-wrapper">
+        We Help To Get You Well.
+        <br />
+        <br />
+      </span>
+      <span class="span">
+        Lorem Ipsum is simply dummy text of the printing and
+        <br />
+        typesetting industry. Lorem Ipsum has been the
+        <br />
+        industry's standard dummy text ever since the 1500s,
+      </span>
+    </p>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
-  data() {
-    return {
-      username: '',
-      password: ''
-    };
-  },
-  methods: {
-    async login() {
-      try {
-        const response = await axios.post('http://localhost:8080/api/v1/login', {
-          name: this.name, // Ändern Sie 'username' in 'name'
-          password: this.password
-        });
-
-        if (response.status === 200) {
-          console.log('Login successful');
-          this.$router.push('/home'); // Leitet den Benutzer zur Home-Seite um
-        } else {
-          console.log('Login failed');
-        }
-      } catch (error) {
-        console.error('An error occurred while trying to login:', error);
-      }
-    },
-    createAccount() {
-      this.$router.push('/registerview');
-    }
-  }
-}
+  name: "LoginView",
+};
 </script>
 
-<style scoped>
-  .login {
-    width: 300px;
-    margin: 0 auto;
-  }
 
-  .login label {
-    display: block;
-    margin-top: 10px;
-  }
+<style>
+ .login {
+  height: 249px;
+  width: 942px;
+}
 
-  .login input {
-    width: 100%;
-    padding: 5px;
-    margin-top: 5px;
-  }
+.login .we-help-to-get-you {
+  color: #ffffffe6;
+  font-family: "Barlow-Black", Helvetica;
+  font-size: 64px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: fixed;
+  top: 0;
+  width: 942px;
+}
 
-  .login button {
-    margin-top: 10px;
-  }
+.label .text-wrapper {
+  font-weight: 900;
+}
+
+.label .span {
+  font-family: "Barlow-Bold", Helvetica;
+  font-size: 36px;
+  font-weight: 700;
+}
+
 </style>
