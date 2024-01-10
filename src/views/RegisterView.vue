@@ -4,14 +4,14 @@
 
     <form @submit.prevent="addOrToggleEmail">
       <label for="email">Email:</label>
-      <input id="email" v-model="newEmail" type="email">
-      <button type="submit">Add or find E-Mail</button>
+      <input class="type-1" id="email" v-model="newEmail" type="email">
+      <button class="glowing-btn" type="submit">Add or find E-Mail</button>
     </form>
 
     <div v-if="currentEmailReminder">
       <h2>Current Email: {{ currentEmailReminder.email }}</h2>
       <p>Reminder Enabled: {{ currentEmailReminder.reminderEnabled ? 'Yes' : 'No' }}</p>
-      <button @click="toggleReminder">Toggle Reminder</button>
+      <button class="glowing-btn" @click="toggleReminder">Toggle Reminder</button>
     </div>
   </div>
 </template>
@@ -63,7 +63,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 60vh;
   background: linear-gradient(to bottom, #89CFF0 0%, #FFFFFF 100%);
   padding: 20px;
 }

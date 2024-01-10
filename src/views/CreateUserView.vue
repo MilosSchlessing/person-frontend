@@ -4,9 +4,9 @@
     <img src="/pics/background.jpg" width="100%" height="100%">
     <form @submit.prevent="createUser">
       <label for="name">Name:</label>
-      <input id="name" v-model="newUser.name" required>
+      <input class="type-1" id="name" v-model="newUser.name" required>
       <label for="ml">ML:</label>
-      <input id="ml" v-model="newUser.ml" required>
+      <input class="type-1" id="ml" v-model="newUser.ml" required>
       <button class='glowing-btn' type="submit">Create User</button>
     </form>
 
@@ -48,7 +48,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 60vh;
   background: linear-gradient(to bottom, #89CFF0 0%, #FFFFFF 100%);
   font-family: Arial, sans-serif;
 }

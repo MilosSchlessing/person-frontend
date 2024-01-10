@@ -17,7 +17,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/registerview',
+    path: '/emailreminder',
     name: 'registerview',
     component: Register
   },

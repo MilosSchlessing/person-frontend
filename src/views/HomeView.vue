@@ -3,9 +3,10 @@
     <h1>Welcome to Hydrate!</h1>
     <p>Remember to drink water regularly throughout the day.</p>
     <img alt="Hydrate logo" src="../assets/wasserglas.png" :class="{ shake: isShaking }">
-    <button class="glowing-btn" @click="shakeImage">Stay Hydrated!</button>
+    <button class="glowing-btn home-view" @click="shakeImage">Stay Hydrated!</button>
     <HelloWorld msg="Stay Hydrated!"/>
   </div>
+  
 </template>
 
 <script>
@@ -26,7 +27,7 @@ export default {
       this.isShaking = true;
       setTimeout(() => {
         this.isShaking = false;
-      }, 1000); // Stop shaking after 1 second
+      }, 1000);
     }
   }
 }
@@ -34,6 +35,11 @@ export default {
 
 <style scoped>
 @import '../styles.css';
+
+.glowing-btn.home-view {
+  font-size: 2rem;
+  padding: 10px 20px; 
+}
 .home {
   display: flex;
   flex-direction: column;

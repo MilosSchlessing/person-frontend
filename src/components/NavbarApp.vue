@@ -10,7 +10,7 @@
           <router-link class="nav-link" to="/about">About</router-link>
           <router-link class="nav-link" to="/persons">Persons</router-link>
           <router-link class="nav-link" to="/create-user">Create User</router-link>
-          <router-link class="nav-link" to="/registerview">E-Mail Reminder</router-link>
+          <router-link class="nav-link" to="/emailreminder">E-Mail Reminder</router-link>
         </div>
       </div>
     </div>
