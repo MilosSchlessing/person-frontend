@@ -19,9 +19,10 @@
       <input class="type-1" id="date" v-model="newDate" type="date" required>
 
       <button class="glowing-btn" type="submit">Add Daily Water Intake</button>
-      <button class="glowing-btn" type="button" v-if="currentThing" @click="changeDailyWaterIntake(currentThing.id)">Change Daily Water Intake</button>
+      <button class="glowing-btn" type="button" v-if="currentThing"
+        @click="changeDailyWaterIntake(currentThing.id)">Change Daily Water Intake</button>
     </form>
-    <p>{{ addIntakeMessage }}</p> 
+    <p>{{ addIntakeMessage }}</p>
   </div>
   <div class="chart-container">
     <button class="glowing-btn" @click="createChart">Create Chart</button>
@@ -43,7 +44,8 @@
   justify-content: center;
   min-height: 80vh;
   background: linear-gradient(to bottom, #89CFF0 0%, #FFFFFF 100%);
-  padding: 20px; /* Fügt einen Abstand um die gesamte .things Div hinzu */
+  padding: 20px;
+  /* Fügt einen Abstand um die gesamte .things Div hinzu */
 }
 
 .things h1,
@@ -61,10 +63,10 @@
 .things form button {
   margin-top: 5px;
 }
+
 .chart-container {
   margin-top: -250px;
 }
-
 </style>
 
 <script>
@@ -92,7 +94,7 @@ export default {
 
   methods: {
     resetAddIntakeMessage() {
-    this.addIntakeMessage = '';
+      this.addIntakeMessage = '';
     },
     calculateAverageIntake() {
       if (this.dailyWaterIntakes.length > 0) {
@@ -103,26 +105,26 @@ export default {
       }
     },
     async getThing() {
-  try {
-    const response = await axios.get(`http://localhost:8080/watergoal/${this.thingId}`);
-    if (response.data) {
-      this.currentThing = response.data;
-      this.dailyWaterIntakes = response.data.dailyWaterIntakes;
-      this.editMode = false;
-      this.getThingMessage = '';
-      this.resetData();
-    } else {
-      this.getThingMessage = 'Keine Daten für diese ID gefunden.';
-      this.currentThing = null;
-      this.thingId = '';
-    }
-  } catch (error) {
-    console.error(error);
-    this.getThingMessage = 'Fehler beim Abrufen der Daten.';
-    this.currentThing = null;
-    this.thingId = '';
-  }
-  },
+      try {
+        const response = await axios.get(`http://localhost:8080/watergoal/${this.thingId}`);
+        if (response.data) {
+          this.currentThing = response.data;
+          this.dailyWaterIntakes = response.data.dailyWaterIntakes;
+          this.editMode = false;
+          this.getThingMessage = '';
+          this.resetData();
+        } else {
+          this.getThingMessage = 'Keine Daten für diese ID gefunden.';
+          this.currentThing = null;
+          this.thingId = '';
+        }
+      } catch (error) {
+        console.error(error);
+        this.getThingMessage = 'Fehler beim Abrufen der Daten.';
+        this.currentThing = null;
+        this.thingId = '';
+      }
+    },
     async updateThing() {
       const response = await axios.put(`http://localhost:8080/watergoal/${this.thingId}`, this.currentThing);
       this.currentThing = response.data;
@@ -130,45 +132,45 @@ export default {
     },
 
     async addDailyWaterIntake() {
-  if (this.currentThing) {
-    const existingIntake = this.dailyWaterIntakes && this.dailyWaterIntakes.find(intake => intake.date === this.newDate);
-    if (existingIntake) {
-      this.addIntakeMessage = 'Es kann nicht mehr als eine Angabe pro Tag hinzugefügt werden.';
-      return;
-    }
+      if (this.currentThing) {
+        const existingIntake = this.dailyWaterIntakes && this.dailyWaterIntakes.find(intake => intake.date === this.newDate);
+        if (existingIntake) {
+          this.addIntakeMessage = 'Es kann nicht mehr als eine Angabe pro Tag hinzugefügt werden.';
+          return;
+        }
 
-    const response = await axios.post('http://localhost:8080/dailyWaterIntake', {
-      waterGoal: { id: this.currentThing.id },
-      date: this.newDate,
-      ml: this.newDailyWaterIntake
-    })
+        const response = await axios.post('http://localhost:8080/dailyWaterIntake', {
+          waterGoal: { id: this.currentThing.id },
+          date: this.newDate,
+          ml: this.newDailyWaterIntake
+        })
 
-    this.currentThing.dailyWaterIntake = response.data.dailyWaterIntake
-    this.newDailyWaterIntake = ''
-    this.newDate = ''
-    this.resetAddIntakeMessage();
+        this.currentThing.dailyWaterIntake = response.data.dailyWaterIntake
+        this.newDailyWaterIntake = ''
+        this.newDate = ''
+        this.resetAddIntakeMessage();
 
-    await this.fetchDailyWaterIntakes();
-  } else {
-    console.error('currentThing is null');
-  }
-},
+        await this.fetchDailyWaterIntakes();
+      } else {
+        console.error('currentThing is null!');
+      }
+    },
 
     async fetchDailyWaterIntakes() {
-  if (this.currentThing) {
-    try {
-      const response = await axios.get(`http://localhost:8080/dailyWaterIntake/${this.currentThing.id}`);
-      this.dailyWaterIntakes = response.data || [];
-      this.calculateAverageIntake();
-    } catch (error) {
-      console.error(error);
-      this.dailyWaterIntakes = [];
-    }
-  } else {
-    console.error('currentThing is null');
-    this.dailyWaterIntakes = [];
-  }
-},
+      if (this.currentThing) {
+        try {
+          const response = await axios.get(`http://localhost:8080/dailyWaterIntake/${this.currentThing.id}`);
+          this.dailyWaterIntakes = response.data || [];
+          this.calculateAverageIntake();
+        } catch (error) {
+          console.error(error);
+          this.dailyWaterIntakes = [];
+        }
+      } else {
+        console.error('currentThing is null!');
+        this.dailyWaterIntakes = [];
+      }
+    },
 
     async createChart() {
       await this.fetchDailyWaterIntakes();
@@ -207,7 +209,7 @@ export default {
       } else {
         console.error('dailyWaterIntakes is empty or undefined');
         this.chartMessage = 'Es konnte kein Diagramm für die angegebene ID erstellt werden, da keine Daten vorhanden sind.';
-        if(this.chart) {
+        if (this.chart) {
           this.chart.destroy();
           this.chart = null;
         }
@@ -215,42 +217,42 @@ export default {
     },
 
     downloadChart() {
-    if (!this.chart) {
-      console.error('No chart available to download');
-      return;
-    }
+      if (!this.chart) {
+        console.error('No chart available to download');
+        return;
+      }
 
-    const canvas = this.$refs.myChart;
-    const link = document.createElement('a');
-    link.href = canvas.toDataURL('image/png');
-    link.download = 'chart.png';
-    document.body.appendChild(link);
-    link.click();
-  },
-  resetData() {
-    this.averageIntake = 0;
-    if (this.chart) {
-      this.chart.destroy();
-      this.chart = null;
-    }
-  },
-  async changeDailyWaterIntake() {
-  if (!this.currentThing || !this.newDate || !this.newDailyWaterIntake) {
-    console.error('No current thing selected or date provided for update');
-    return;
+      const canvas = this.$refs.myChart;
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'chart.png';
+      document.body.appendChild(link);
+      link.click();
+    },
+    resetData() {
+      this.averageIntake = 0;
+      if (this.chart) {
+        this.chart.destroy();
+        this.chart = null;
+      }
+    },
+    async changeDailyWaterIntake() {
+      if (!this.currentThing || !this.newDate || !this.newDailyWaterIntake) {
+        console.error('No current thing selected or date provided for update');
+        return;
+      }
+
+      try {
+        const dataToUpdate = {
+          ml: this.newDailyWaterIntake
+        };
+
+        await axios.put(`http://localhost:8080/dailyWaterIntake/${this.currentThing.id}/${this.newDate}`, dataToUpdate);
+        await this.fetchDailyWaterIntakes();
+      } catch (error) {
+        console.error('An error occurred while updating the daily water intake:', error);
+      }
+    },
   }
-
-  try {
-    const dataToUpdate = {
-      ml: this.newDailyWaterIntake
-    };
-
-    await axios.put(`http://localhost:8080/dailyWaterIntake/${this.currentThing.id}/${this.newDate}`, dataToUpdate);
-    await this.fetchDailyWaterIntakes();
-  } catch (error) {
-    console.error('An error occurred while updating the daily water intake:', error);
-  }
-},
-}
 }
 </script>

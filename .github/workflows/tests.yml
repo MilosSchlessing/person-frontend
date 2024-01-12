@@ -18,8 +18,10 @@ jobs:
       with:
         node-version: '14'
 
-    - name: Install Dependencies
-      run: npm ci
+    - name: Run npm install
+      run: npm install
 
     - name: Run Tests
-      run: npm test
+      run: npx jest
+
+      

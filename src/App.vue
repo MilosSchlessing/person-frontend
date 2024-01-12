@@ -1,6 +1,6 @@
 <template>
-<navbar-app></navbar-app>
-  <router-view/>
+  <navbar-app></navbar-app>
+  <router-view />
 </template>
 <script>
 import NavbarApp from './components/NavbarApp'

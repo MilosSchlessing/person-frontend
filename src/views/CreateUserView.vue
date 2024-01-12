@@ -43,6 +43,7 @@ export default {
 
 <style scoped>
 @import '../styles.css';
+
 .createUser {
   display: flex;
   flex-direction: column;
