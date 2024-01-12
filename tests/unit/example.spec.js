@@ -30,7 +30,7 @@ describe('CreateUserView.vue', () => {
     await wrapper.vm.createUser();
 
     expect(wrapper.vm.userId).toBe(mockData.id);
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:8080/watergoal', wrapper.vm.newUser);
+    expect(axios.post).toHaveBeenCalledWith('https://watergoal-backend.onrender.com/watergoal', wrapper.vm.newUser);
   });
 });
 
@@ -92,3 +92,37 @@ it('adds daily water intake correctly', async () => {
 
     expect(wrapper.vm.chart).not.toBeNull();
   });
+
+// Test for calculateAverageIntake method
+describe('PersonsView.vue', () => {
+  it('calculates average intake correctly', () => {
+    const wrapper = shallowMount(PersonsView);
+
+    // Set the dailyWaterIntakes data property
+    wrapper.setData({
+      dailyWaterIntakes: [
+        { ml: 500 },
+        { ml: 600 },
+        { ml: 700 },
+      ],
+    });
+
+    // Call the method
+    wrapper.vm.calculateAverageIntake();
+
+    // Check that the averageIntake data property has been correctly calculated
+    expect(wrapper.vm.averageIntake).toBe(600);
+  });
+});
+
+
+
+// Test for showAverageIntake method
+it('shows average intake correctly', async () => {
+  const wrapper = shallowMount(PersonsView);
+  wrapper.setData({ showAverageIntake: false });
+
+  expect(wrapper.vm.showAverageIntake).toBe(false);
+  wrapper.setData({ showAverageIntake: true });
+  expect(wrapper.vm.showAverageIntake).toBe(true);
+});

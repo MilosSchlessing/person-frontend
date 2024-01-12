@@ -16,6 +16,8 @@
   cursor: pointer;
   font-weight: bold;  
   border: none;
+  padding: 10px 20px;
+  margin: 10px;
 }
 
 .glowing-btn:hover {
@@ -40,9 +42,12 @@
     border-radius:10px;
     border: 1px solid #eee;
     transition: .3s border-color;
+    padding: 10px;
+    margin: 10px;
   }
   .type-1:hover {
     border: 1px solid #aaa;
   }
 
+  
 

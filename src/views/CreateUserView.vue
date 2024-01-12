@@ -30,7 +30,7 @@ export default {
   methods: {
     createUser() {
       axios
-        .post('http://localhost:8080/watergoal', this.newUser)
+        .post('https://watergoal-backend.onrender.com/watergoal', this.newUser)
         .then(response => {
           this.userId = response.data.id;
         })
