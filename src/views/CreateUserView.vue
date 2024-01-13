@@ -53,4 +53,9 @@ export default {
   background: linear-gradient(to bottom, #89CFF0 0%, #FFFFFF 100%);
   font-family: Arial, sans-serif;
 }
+
+.createUser h1 {
+  color: #0077be;
+  margin-bottom: 15px;
+}
 </style>
