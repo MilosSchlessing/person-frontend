@@ -4,6 +4,7 @@ import PersonsView from '@/views/PersonsView.vue';
 import CreateUserView from '@/views/CreateUserView.vue';
 
 
+
 jest.mock('axios');
 
 // Mock document.getElementById
@@ -126,3 +127,4 @@ it('shows average intake correctly', async () => {
   wrapper.setData({ showAverageIntake: true });
   expect(wrapper.vm.showAverageIntake).toBe(true);
 });
+
