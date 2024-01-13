@@ -1,7 +1,6 @@
 <template>
   <div class="createUser">
     <h1>Create User</h1>
-    <img src="/pics/background.jpg" width="100%" height="100%">
     <form @submit.prevent="createUser">
       <label for="name">Name:</label>
       <input class="type-1" id="name" v-model="newUser.name" required>
