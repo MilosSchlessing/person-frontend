@@ -79,7 +79,7 @@ it('sends a post request when addDailyWaterIntake is called', async () => {
   await wrapper.vm.getThing();
   await wrapper.vm.addDailyWaterIntake();
 
-  expect(axios.post).toHaveBeenCalledWith('http://localhost:8080/dailyWaterIntake', {
+  expect(axios.post).toHaveBeenCalledWith('https://watergoal-backend.onrender.com/dailyWaterIntake', {
     waterGoal: { id: '1' },
     date: '2022-01-01',
     ml: '500'
