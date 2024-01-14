@@ -24,6 +24,8 @@
       <button class="glowing-btn" type="submit">Wasseraufnahme hinzufügen</button>
       <button class="glowing-btn" type="button" v-if="currentThing"
         @click="changeDailyWaterIntake(currentThing.id)">Wasseraufnahme ändern</button>
+        <br>
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
     </form>
     <p>{{ addIntakeMessage }}</p>
   </div>
@@ -91,6 +93,7 @@ export default {
       addIntakeMessage: '',
       getThingMessage: '',
       showAverageIntake: false,
+      errorMessage: '',
     }
   },
 
@@ -115,6 +118,7 @@ export default {
           this.editMode = false;
           this.getThingMessage = '';
           this.resetData();
+          this.errorMessage = '';
         } else {
           this.getThingMessage = 'Keine Daten für diese ID gefunden.';
           this.currentThing = null;
@@ -134,29 +138,31 @@ export default {
     },
 
     async addDailyWaterIntake() {
-      if (this.currentThing) {
-        const existingIntake = this.dailyWaterIntakes && this.dailyWaterIntakes.find(intake => intake.date === this.newDate);
-        if (existingIntake) {
-          this.addIntakeMessage = 'Es kann nicht mehr als eine Angabe pro Tag hinzugefügt werden.';
-          return;
-        }
+    if (this.currentThing) {
+      this.errorMessage = '';
 
-        const response = await axios.post('https://watergoal-backend.onrender.com/dailyWaterIntake', {
-          waterGoal: { id: this.currentThing.id },
-          date: this.newDate,
-          ml: this.newDailyWaterIntake
-        })
-
-        this.currentThing.dailyWaterIntake = response.data.dailyWaterIntake
-        this.newDailyWaterIntake = ''
-        this.newDate = ''
-        this.resetAddIntakeMessage();
-
-        await this.fetchDailyWaterIntakes();
-      } else {
-        console.error('currentThing is null!');
+      const existingIntake = this.dailyWaterIntakes && this.dailyWaterIntakes.find(intake => intake.date === this.newDate);
+      if (existingIntake) {
+        this.addIntakeMessage = 'Es kann nicht mehr als eine Angabe pro Tag hinzugefügt werden.';
+        return;
       }
-    },
+
+      const response = await axios.post('https://watergoal-backend.onrender.com/dailyWaterIntake', {
+        waterGoal: { id: this.currentThing.id },
+        date: this.newDate,
+        ml: this.newDailyWaterIntake
+      })
+
+      this.currentThing.dailyWaterIntake = response.data.dailyWaterIntake
+      this.newDailyWaterIntake = ''
+      this.newDate = ''
+      this.resetAddIntakeMessage();
+
+      await this.fetchDailyWaterIntakes();
+    } else {
+      this.errorMessage = 'Fehler beim Abrufen der Daten.';
+    }
+  },
 
     async fetchDailyWaterIntakes() {
       if (this.currentThing) {
