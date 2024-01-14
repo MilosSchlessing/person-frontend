@@ -4,7 +4,7 @@
     <p>Hier kannst du über deine ID dein eingetragenes Ziel aufrufen und deine tägliche Wasseraufnahme hinzufügen.</p>
     <form @submit.prevent="getThing">
       <label for="id">ID:</label>
-      <input class="type-1" id="id" v-model="thingId" required>
+      <input class="type-1" id="id" v-model="thingId" type="number" required>
 
       <button class="glowing-btn" type="submit">Hol mein Wasserziel!</button>
     </form>
@@ -16,7 +16,7 @@
     <p>Hier kannst du deine tägliche Wasseraufnahme hinzufügen.</p>
     <form @submit.prevent="addDailyWaterIntake">
       <label for="dailyWaterIntake">Tägliche Wasseraufnahme:</label>
-      <input class="type-1" id="dailyWaterIntake" v-model="newDailyWaterIntake" required>
+      <input class="type-1" id="dailyWaterIntake" v-model="newDailyWaterIntake" type="number" required>
 
       <label for="date">Datum:</label>
       <input class="type-1" id="date" v-model="newDate" type="date" required>

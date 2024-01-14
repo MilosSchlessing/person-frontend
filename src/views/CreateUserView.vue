@@ -6,7 +6,7 @@
       <label for="name">Name:</label>
       <input class="type-1" id="name" v-model="newUser.name" required>
       <label for="ml">Ziel in ML:</label>
-      <input class="type-1" id="ml" v-model="newUser.ml" required>
+      <input class="type-1" id="ml" v-model="newUser.ml" type="number" required>
       <button class='glowing-btn' type="submit">Wasserziel erstellen!</button>
     </form>
 
