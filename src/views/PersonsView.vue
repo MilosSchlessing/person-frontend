@@ -1,31 +1,34 @@
 <template>
   <div class="things">
+    <h1>Wasseraufnahme hinzufügen!</h1>
+    <p>Hier kannst du über deine ID dein eingetragenes Ziel aufrufen und deine tägliche Wasseraufnahme hinzufügen.</p>
     <form @submit.prevent="getThing">
       <label for="id">ID:</label>
       <input class="type-1" id="id" v-model="thingId" required>
 
-      <button class="glowing-btn" type="submit">Get my Watergoal!</button>
+      <button class="glowing-btn" type="submit">Hol mein Wasserziel!</button>
     </form>
     <p>{{ getThingMessage }}</p>
     <div v-if="currentThing">
       <p>Name: {{ currentThing.name }}</p>
       <p>ML: {{ currentThing.ml }}</p>
     </div>
+    <p>Hier kannst du deine tägliche Wasseraufnahme hinzufügen.</p>
     <form @submit.prevent="addDailyWaterIntake">
-      <label for="dailyWaterIntake">Daily Water Intake:</label>
+      <label for="dailyWaterIntake">Tägliche Wasseraufnahme:</label>
       <input class="type-1" id="dailyWaterIntake" v-model="newDailyWaterIntake" required>
 
-      <label for="date">Date:</label>
+      <label for="date">Datum:</label>
       <input class="type-1" id="date" v-model="newDate" type="date" required>
 
-      <button class="glowing-btn" type="submit">Add Daily Water Intake</button>
+      <button class="glowing-btn" type="submit">Wasseraufnahme hinzufügen</button>
       <button class="glowing-btn" type="button" v-if="currentThing"
-        @click="changeDailyWaterIntake(currentThing.id)">Change Daily Water Intake</button>
+        @click="changeDailyWaterIntake(currentThing.id)">Wasseraufnahme ändern</button>
     </form>
     <p>{{ addIntakeMessage }}</p>
   </div>
   <div class="chart-container">
-    <button class="glowing-btn" @click="createChart">Create Chart</button>
+    <button class="glowing-btn" @click="createChart">Chart erstellen</button>
     <br>
     <br>
     <button class="glowing-btn" v-if="chart" @click="showAverageIntake = true">Berechne Durchschnitt</button>
@@ -45,18 +48,17 @@
   min-height: 80vh;
   background: linear-gradient(to bottom, #89CFF0 0%, #FFFFFF 100%);
   padding: 20px;
-  /* Fügt einen Abstand um die gesamte .things Div hinzu */
 }
 
 .things h1,
 .things h2,
 .thing-item p {
   color: #0077be;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .things form {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .things form input,
@@ -65,7 +67,7 @@
 }
 
 .chart-container {
-  margin-top: -250px;
+  margin-top: -150px;
 }
 </style>
 
@@ -106,7 +108,7 @@ export default {
     },
     async getThing() {
       try {
-        const response = await axios.get(`http://localhost:8080/watergoal/${this.thingId}`);
+        const response = await axios.get(`https://watergoal-backend.onrender.com/watergoal/${this.thingId}`);
         if (response.data) {
           this.currentThing = response.data;
           this.dailyWaterIntakes = response.data.dailyWaterIntakes;
@@ -126,7 +128,7 @@ export default {
       }
     },
     async updateThing() {
-      const response = await axios.put(`http://localhost:8080/watergoal/${this.thingId}`, this.currentThing);
+      const response = await axios.put(`https://watergoal-backend.onrender.com/watergoal/${this.thingId}`, this.currentThing);
       this.currentThing = response.data;
       this.editMode = false;
     },
@@ -139,7 +141,7 @@ export default {
           return;
         }
 
-        const response = await axios.post('http://localhost:8080/dailyWaterIntake', {
+        const response = await axios.post('https://watergoal-backend.onrender.com/dailyWaterIntake', {
           waterGoal: { id: this.currentThing.id },
           date: this.newDate,
           ml: this.newDailyWaterIntake
@@ -159,7 +161,7 @@ export default {
     async fetchDailyWaterIntakes() {
       if (this.currentThing) {
         try {
-          const response = await axios.get(`http://localhost:8080/dailyWaterIntake/${this.currentThing.id}`);
+          const response = await axios.get(`https://watergoal-backend.onrender.com/dailyWaterIntake/${this.currentThing.id}`);
           this.dailyWaterIntakes = response.data || [];
           this.calculateAverageIntake();
         } catch (error) {
@@ -247,8 +249,11 @@ export default {
           ml: this.newDailyWaterIntake
         };
 
-        await axios.put(`http://localhost:8080/dailyWaterIntake/${this.currentThing.id}/${this.newDate}`, dataToUpdate);
+        await axios.put(`https://watergoal-backend.onrender.com/dailyWaterIntake/${this.currentThing.id}/${this.newDate}`, dataToUpdate);
         await this.fetchDailyWaterIntakes();
+
+        this.newDailyWaterIntake = '';
+        this.newDate = '';
       } catch (error) {
         console.error('An error occurred while updating the daily water intake:', error);
       }

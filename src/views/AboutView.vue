@@ -1,27 +1,30 @@
 <template>
   <div class="about">
     <h1>Welcome to Hydrate!</h1>
-    <p>We are dedicated to helping you stay hydrated. Remember to drink water regularly throughout the day.</p>
-      <div class="row">
-        <div class="champpics-col">
-          <img src="/water1.jpg">
-          <div class="layer">
-            <h3 class="test">"Trinken ist keine Option, sondern eine Verpflichtung – halte deinen Körper gut bewässert, um ihn am besten gedeihen zu lassen."<br> ~Sidar Dali </h3>
-          </div>
-        </div>
-        <div class="champpics-col">
-          <img src="/water2.jpg">
-          <div class="layer">
-            <h3 class="test">"Dein Körper ist wie ein Garten; gieße ihn mit Wasser, damit die Blumen der Gesundheit blühen können."<br> ~Mustafa Nazari </h3>
-          </div>
-        </div>
-        <div class="champpics-col">
-          <img src="/water3.jpg">
-          <div class="layer">
-            <h3 class="test">"Wasser ist die Quelle des Lebens – trinke genug, um deine eigene Quelle der Vitalität zu sein."<br> ~Nikita Mantel </h3>
-          </div>
+    <p>Wir sind daran interessiert deine Wasseraufnahme zu steigern und dich täglich zu motivieren!</p>
+    <div class="row">
+      <div class="champpics-col">
+        <img src="/water1.jpg">
+        <div class="layer">
+          <h3 class="test">"Trinken ist keine Option, sondern eine Verpflichtung – halte deinen Körper gut bewässert, um
+            ihn am besten gedeihen zu lassen."<br> ~Sidar Dali </h3>
         </div>
       </div>
+      <div class="champpics-col">
+        <img src="/water2.jpg">
+        <div class="layer">
+          <h3 class="test">"Dein Körper ist wie ein Garten; gieße ihn mit Wasser, damit die Blumen der Gesundheit blühen
+            können."<br> ~Mustafa Nazari </h3>
+        </div>
+      </div>
+      <div class="champpics-col">
+        <img src="/water3.jpg">
+        <div class="layer">
+          <h3 class="test">"Wasser ist die Quelle des Lebens – trinke genug, um deine eigene Quelle der Vitalität zu
+            sein."<br> ~Nikita Mantel </h3>
+        </div>
+      </div>
+    </div>
     <h1></h1>
     <p></p>
   </div>
@@ -38,7 +41,8 @@
   font-family: Arial, sans-serif;
 }
 
-.about h1, .about p {
+.about h1,
+.about p {
   color: #0077be;
 }
 
@@ -74,8 +78,10 @@
 
 .layer {
   position: absolute;
-  top: 0; /* Adjust these values */
-  left: 0; /* Adjust these values */
+  top: 0;
+  /* Adjust these values */
+  left: 0;
+  /* Adjust these values */
   width: 100%;
   height: 100%;
   background: transparent;
@@ -102,6 +108,4 @@
   color: #ffffff !important;
   font-weight: bold;
   text-shadow: 2px 2px 4px #000000;
-}
-
-</style>
+}</style>

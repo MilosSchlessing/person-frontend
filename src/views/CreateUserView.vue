@@ -1,12 +1,13 @@
 <template>
   <div class="createUser">
-    <h1>Create User</h1>
+    <h1>Wasserziel erstellen!</h1>
+    <p>Hier kannst du dir dein persönliches Wasserziel erstellen.</p>
     <form @submit.prevent="createUser">
       <label for="name">Name:</label>
       <input class="type-1" id="name" v-model="newUser.name" required>
       <label for="ml">ML:</label>
       <input class="type-1" id="ml" v-model="newUser.ml" required>
-      <button class='glowing-btn' type="submit">Create User</button>
+      <button class='glowing-btn' type="submit">Wasserziel erstellen!</button>
     </form>
 
     <p v-if="userId">Your user ID is: {{ userId }}</p>
@@ -57,4 +58,10 @@ export default {
   color: #0077be;
   margin-bottom: 15px;
 }
+
+.createUser p {
+  color: #0077be;
+  margin-bottom: 15px;
+}
 </style>
+

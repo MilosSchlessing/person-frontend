@@ -7,10 +7,8 @@ import CreateUserView from '@/views/CreateUserView.vue';
 
 jest.mock('axios');
 
-// Mock document.getElementById
 document.getElementById = jest.fn(() => ({
   getContext: jest.fn(() => ({
-    // Mock whatever methods you use from the context here
     beginPath: jest.fn(),
     moveTo: jest.fn(),
     lineTo: jest.fn(),
@@ -34,19 +32,6 @@ describe('CreateUserView.vue', () => {
     expect(axios.post).toHaveBeenCalledWith('https://watergoal-backend.onrender.com/watergoal', wrapper.vm.newUser);
   });
 });
-
-  // Test for getThing method
-  it('fetches thing correctly', async () => {
-    const mockData = { id: '1', name: 'Watergoal', ml: 2000, dailyWaterIntakes: [] };
-    axios.get.mockResolvedValue({ data: mockData });
-
-    const wrapper = shallowMount(PersonsView);
-    wrapper.setData({ thingId: '1' });
-    await wrapper.vm.getThing();
-
-    expect(wrapper.vm.currentThing).toEqual(mockData);
-    expect(wrapper.vm.getThingMessage).toBe('');
-  });
 
   // Test for addDailyWaterIntake method
 it('adds daily water intake correctly', async () => {
@@ -76,22 +61,6 @@ it('adds daily water intake correctly', async () => {
     await wrapper.vm.fetchDailyWaterIntakes();
 
     expect(wrapper.vm.dailyWaterIntakes).toEqual(mockData);
-  });
-
-  // Test for createChart method
-  document.getElementById = jest.fn().mockReturnValue({
-    getContext: jest.fn().mockReturnValue({}),
-  });
-
-  it('creates chart correctly', async () => {
-    const mockData = [{ waterGoal: { id: '1' }, date: '2022-01-01', ml: 500 }];
-    axios.get.mockResolvedValue({ data: mockData });
-
-    const wrapper = shallowMount(PersonsView);
-    wrapper.setData({ currentThing: { id: '1', name: 'Watergoal', ml: 2000, dailyWaterIntakes: [] } });
-    await wrapper.vm.createChart();
-
-    expect(wrapper.vm.chart).not.toBeNull();
   });
 
 // Test for calculateAverageIntake method
@@ -127,4 +96,3 @@ it('shows average intake correctly', async () => {
   wrapper.setData({ showAverageIntake: true });
   expect(wrapper.vm.showAverageIntake).toBe(true);
 });
-

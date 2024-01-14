@@ -8,9 +8,9 @@
         <div class="navbar-nav">
           <router-link class="nav-link" to="/">Home</router-link>
           <router-link class="nav-link" to="/about">About</router-link>
-          <router-link class="nav-link" to="/persons">Persons</router-link>
-          <router-link class="nav-link" to="/create-user">Create User</router-link>
-          <router-link class="nav-link" to="/emailreminder">E-Mail Reminder</router-link>
+          <router-link class="nav-link" to="/persons">Wasseraufnahme</router-link>
+          <router-link class="nav-link" to="/create-user">Ziel erstellen</router-link>
+          <router-link class="nav-link" to="/emailreminder">E-Mail Motivation</router-link>
         </div>
       </div>
     </div>
@@ -34,7 +34,8 @@
   height: 120px;
 }
 
-.navbar-brand, .nav-link {
+.navbar-brand,
+.nav-link {
   color: #0077be !important;
   margin-right: 20px;
   transition: color 0.3s ease;

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>Welcome to Hydrate!</h1>
-    <p>Remember to drink water regularly throughout the day.</p>
+    <p>Denk immer daran genug Wasser zu trinken und einen gesunden Lifestyle aufrechzuerhalten!</p>
     <img alt="Hydrate logo" src="../assets/wasserglas.png" :class="{ shake: isShaking }">
     <button class="glowing-btn home-view" @click="shakeImage">Stay Hydrated!</button>
     <HelloWorld msg="Stay Hydrated!" />
@@ -106,4 +106,5 @@ export default {
 .shake {
   animation: shake 0.5s;
   animation-iteration-count: infinite;
-}</style>
+}
+</style>

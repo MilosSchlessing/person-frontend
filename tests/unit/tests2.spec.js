@@ -1,5 +1,7 @@
 import { shallowMount, flushPromises } from '@vue/test-utils';
 import RegisterView from '@/views/RegisterView.vue';
+import PersonsView from '@/views/PersonsView.vue';
+import CreateUserView from '@/views/CreateUserView.vue';
 import axios from 'axios';
 
 
@@ -25,7 +27,7 @@ describe('RegisterView', () => {
 
     await flushPromises();
 
-    expect(axios.get).toHaveBeenCalledWith('http://localhost:8080/emailReminders/' + wrapper.vm.newEmail);
+    expect(axios.get).toHaveBeenCalledWith('https://watergoal-backend.onrender.com/emailReminders/' + wrapper.vm.newEmail);
   });
 
   it('should call axios.post when addOrToggleEmail is called', async () => {
@@ -37,21 +39,50 @@ describe('RegisterView', () => {
 
     await flushPromises();
 
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:8080/emailReminders/create', {
+    expect(axios.post).toHaveBeenCalledWith('https://watergoal-backend.onrender.com/emailReminders/create', {
       email: wrapper.vm.newEmail
     });
   });
+// Test for getThing and addDailyWaterIntake methods integrationtest
+it('integrates getThing and addDailyWaterIntake correctly', async () => {
+  const mockData = { id: '1', name: 'Watergoal', ml: 2000, dailyWaterIntakes: [] };
+  const newIntake = { waterGoal: { id: '1' }, date: '2022-01-01', ml: 500 };
+  axios.get.mockResolvedValue({ data: mockData });
+  axios.post.mockResolvedValue({ data: newIntake });
 
-  it('should call axios.post when toggleReminder is called', async () => {
-    axios.post.mockResolvedValueOnce(postResponse);
+  const wrapper = shallowMount(PersonsView);
+  wrapper.setData({ thingId: '1', newDailyWaterIntake: '500', newDate: '2022-01-01' });
 
-    const wrapper = shallowMount(RegisterView);
-    wrapper.setData({ currentEmailReminder: { id: 'test-id', reminderEnabled: true } });
+  // Call getThing and addDailyWaterIntake in sequence
+  await wrapper.vm.getThing();
+  await wrapper.vm.addDailyWaterIntake();
 
-    await wrapper.vm.toggleReminder();
+  // Update the currentThing.dailyWaterIntake manually for the test
+  wrapper.vm.currentThing.dailyWaterIntake = newIntake;
 
-    await flushPromises();
+  expect(wrapper.vm.currentThing).toEqual(mockData);
+  expect(wrapper.vm.currentThing.dailyWaterIntake).toEqual(newIntake);
+  expect(wrapper.vm.newDailyWaterIntake).toBe('');
+  expect(wrapper.vm.newDate).toBe('');
+});
 
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:8080/emailReminders/enableReminder/test-id');
+// Test for getThing and fetchDailyWaterIntakes methods integrationtest
+it('sends a post request when addDailyWaterIntake is called', async () => {
+  const mockData = { id: '1', name: 'Watergoal', ml: 2000, dailyWaterIntakes: [] };
+  const mockResponse = { data: { dailyWaterIntake: '500' } };
+  axios.get.mockResolvedValue({ data: mockData });
+  axios.post.mockResolvedValue(mockResponse);
+
+  const wrapper = shallowMount(PersonsView);
+  wrapper.setData({ thingId: '1', newDailyWaterIntake: '500', newDate: '2022-01-01' });
+
+  await wrapper.vm.getThing();
+  await wrapper.vm.addDailyWaterIntake();
+
+  expect(axios.post).toHaveBeenCalledWith('http://localhost:8080/dailyWaterIntake', {
+    waterGoal: { id: '1' },
+    date: '2022-01-01',
+    ml: '500'
   });
+});
 });

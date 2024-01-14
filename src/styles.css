@@ -1,23 +1,24 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway");
 
 .glowing-btn {
-  --c:  #1d84e4;
-  box-shadow: 0 0 0 .1em inset var(--c); 
+  --c: #1d84e4;
+  box-shadow: 0 0 0 .1em inset var(--c);
   --_g: linear-gradient(var(--c) 0 0) no-repeat;
-  background: 
-    var(--_g) calc(var(--_p,0%) - 100%) 0%,
-    var(--_g) calc(200% - var(--_p,0%)) 0%,
-    var(--_g) calc(var(--_p,0%) - 100%) 100%,
-    var(--_g) calc(200% - var(--_p,0%)) 100%;
-  background-size: 50.5% calc(var(--_p,0%)/2 + .5%);
+  background:
+    var(--_g) calc(var(--_p, 0%) - 100%) 0%,
+    var(--_g) calc(200% - var(--_p, 0%)) 0%,
+    var(--_g) calc(var(--_p, 0%) - 100%) 100%,
+    var(--_g) calc(200% - var(--_p, 0%)) 100%;
+  background-size: 50.5% calc(var(--_p, 0%)/2 + .5%);
   outline-offset: .1em;
   transition: background-size .4s, background-position 0s .4s;
   font-family: system-ui, sans-serif;
   cursor: pointer;
-  font-weight: bold;  
+  font-weight: bold;
   border: none;
   padding: 10px 20px;
   margin: 10px;
+  position: relative;
 }
 
 .glowing-btn:hover {
@@ -26,28 +27,28 @@
 }
 
 .glowing-btn:active {
-  box-shadow: 0 0 9e9q inset #0009; 
+  box-shadow: 0 0 9e9q inset #0009;
   background-color: var(--c);
   color: #fff;
 }
-  .createUser form {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 10px; /* Optional: Adds some space between the form elements */
-  }
 
-  .type-1 {
-    border-radius:10px;
-    border: 1px solid #eee;
-    transition: .3s border-color;
-    padding: 10px;
-    margin: 10px;
-  }
-  .type-1:hover {
-    border: 1px solid #b9b5b5;
-  }
+.createUser form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  /* Optional: Adds some space between the form elements */
+}
 
-  
+.type-1 {
+  border-radius: 10px;
+  border: 1px solid #eee;
+  transition: .3s border-color;
+  padding: 10px;
+  margin: 10px;
+}
 
+.type-1:hover {
+  border: 1px solid #b9b5b5;
+}

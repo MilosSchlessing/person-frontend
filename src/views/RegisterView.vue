@@ -1,17 +1,17 @@
 <template>
   <div class="things">
-    <h1>Email Reminder</h1>
+    <h1>E-Mail Motivation</h1>
+    <p>Hier können Sie sich eine Motivations-E-Mail senden lassen!</p>
 
     <form @submit.prevent="addOrToggleEmail">
       <label for="email">Email:</label>
       <input class="type-1" id="email" v-model="newEmail" type="email">
-      <button class="glowing-btn" type="submit">Add or find E-Mail</button>
+      <button class="glowing-btn" type="submit">E-Mail senden!</button>
     </form>
 
     <div v-if="currentEmailReminder">
-      <h2>Current Email: {{ currentEmailReminder.email }}</h2>
-      <p>Reminder Enabled: {{ currentEmailReminder.reminderEnabled ? 'Yes' : 'No' }}</p>
-      <button class="glowing-btn" @click="toggleReminder">Toggle Reminder</button>
+      <h2>Ausgewählte E-Mail: {{ currentEmailReminder.email }}</h2>
+      <button class="glowing-btn" @click="toggleReminder">E-Mail erneut senden!</button>
     </div>
   </div>
 </template>
@@ -28,33 +28,33 @@ export default {
     };
   },
   methods: {
-  async addOrToggleEmail() {
-    try {
-      const response = await axios.get(`http://localhost:8080/emailReminders/${this.newEmail}`);
-      this.currentEmailReminder = response.data;
-      if (this.currentEmailReminder) {
-        console.log(`Reminder for ${this.newEmail} is ${this.currentEmailReminder.reminderEnabled ? 'enabled' : 'disabled'}`);
-      } else {
-        console.log(`No reminder found for ${this.newEmail}. Adding new email.`);
-        await axios.post('http://localhost:8080/emailReminders/create', {
-          email: this.newEmail
-        });
+    async addOrToggleEmail() {
+      try {
+        const response = await axios.get(`https://watergoal-backend.onrender.com/emailReminders/${this.newEmail}`);
+        this.currentEmailReminder = response.data;
+        if (this.currentEmailReminder) {
+          console.log(`Reminder for ${this.newEmail} is ${this.currentEmailReminder.reminderEnabled ? 'enabled' : 'disabled'}`);
+        } else {
+          console.log(`No reminder found for ${this.newEmail}. Adding new email.`);
+          await axios.post('https://watergoal-backend.onrender.com/emailReminders/create', {
+            email: this.newEmail
+          });
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  },
+    },
     async toggleReminder() {
       try {
-        await axios.post(`http://localhost:8080/emailReminders/enableReminder/${this.currentEmailReminder.id}`);
+        await axios.post(`https://watergoal-backend.onrender.com/emailReminders/enableReminder/${this.currentEmailReminder.id}`);
         // Toggle the reminder after the server request is successful
         this.currentEmailReminder.reminderEnabled = !this.currentEmailReminder.reminderEnabled;
       } catch (error) {
         console.error(error);
       }
     }
-  } 
-  };
+  }
+};
 </script>
 
 <style scoped>
