@@ -5,7 +5,7 @@
     <form @submit.prevent="createUser">
       <label for="name">Name:</label>
       <input class="type-1" id="name" v-model="newUser.name" required>
-      <label for="ml">ML:</label>
+      <label for="ml">Ziel in ML:</label>
       <input class="type-1" id="ml" v-model="newUser.ml" required>
       <button class='glowing-btn' type="submit">Wasserziel erstellen!</button>
     </form>

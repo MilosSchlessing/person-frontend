@@ -63,7 +63,7 @@ it('adds daily water intake correctly', async () => {
     expect(wrapper.vm.dailyWaterIntakes).toEqual(mockData);
   });
 
-// Test for calculateAverageIntake method
+// Test for calculateAverageIntake method -> ohne mock
 describe('PersonsView.vue', () => {
   it('calculates average intake correctly', () => {
     const wrapper = shallowMount(PersonsView);
